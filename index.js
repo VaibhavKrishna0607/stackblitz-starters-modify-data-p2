@@ -2,15 +2,19 @@ const express = require('express');
 const { resolve } = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
 
-mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected!'))
-  .catch(err => console.log(err));
+const MONGO_URI = process.env.MONGO_URI;
+mongoose.connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 // Define the MenuItem schema directly in index.js
 const MenuItemSchema = new mongoose.Schema({
